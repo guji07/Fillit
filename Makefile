@@ -1,0 +1,25 @@
+NAME = fillit
+FILES = init_grid.c\
+		read_grid.c\
+		main.c
+
+OBJ			= $(patsubst %.c, %.o, $(FILES))
+FLAGS		=  -Wall -Werror -Wextra
+HEADER		= libft.h
+
+all: $(NAME)
+
+.PHONY: clean fclean re
+
+$(NAME): $(OBJ)
+
+%.o: %.c $(HEADER)
+	gcc -I . $(FLAGS) $< -c -o $@
+
+clean:
+	rm -f $(OBJ)
+
+fclean:clean
+	rm -f $(NAME)
+
+re: fclean all
