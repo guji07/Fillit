@@ -6,26 +6,26 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/26 20:42:53 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:27:02 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include <stdio.h>
 
-fillit *read_grid(int fd)
+t_fillit		*read_grid(int fd)
 {
-	fillit *list;
-	char *line;
-	int i;
-	fillit *head;
+	t_fillit		*list;
+	char			*line;
+	int				i;
+	t_fillit		*head;
 
 	i = 0;
 	list = init_grid();
 	head = list;
 	while (get_next_line(fd, &line) > 0)
 	{
-		while(*line)
+		while (*line)
 		{
 			list->grid[i] = *line;
 			line++;
@@ -47,7 +47,38 @@ fillit *read_grid(int fd)
 	return (head);
 }
 
-int		validate(char *str, fillit *list)
+int				count_ne(char *str)
+{
+	int i;
+	int count;
+	int fill;
+
+	i = 0;
+	fill = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '#')
+		{
+			fill++;
+			if (str[i + 1] == '#')
+				count++;
+			if (str[i - 1] == '#')
+				count++;
+			if (str[i - 5] == '#')
+				count++;
+			if (str[i + 5] == '#')
+				count++;
+		}
+		i++;
+		if (fill == 4)
+			if (count < 6)
+				return (0);
+	}
+	return (1);
+}
+
+int				validate(char *str, t_fillit *list)
 {
 	int row;
 	int symb;
@@ -77,12 +108,13 @@ int		validate(char *str, fillit *list)
 			fill++;
 		symb++;
 	}
-	if (col != 4 || dot + fill != symb - 4 || dot != 12 || fill != 4 || !validate_piece(list))
+	if (col != 4 || dot + fill != symb - 4 || dot != 12 ||
+	fill != 4 || !validate_piece(list) || !(count_ne(str)))
 		return (0);
 	return (1);
 }
 
-int		validate_piece(fillit *list)
+int				validate_piece(t_fillit *list)
 {
 	int i;
 	int height;
@@ -98,9 +130,11 @@ int		validate_piece(fillit *list)
 	{
 		if (list->grid[i] == '#')
 		{
-			if ((list->grid[i + 5] == '#' || list->grid[i] == '#') && list->grid[i - 5] != '#')
+			if ((list->grid[i + 5] == '#' ||
+			list->grid[i] == '#') && list->grid[i - 5] != '#')
 				list->width++;
-			if (!(list->grid[i - 1] == '#' || list->grid[i + 1] == '#' || list->grid[i - 5] == '#' || list->grid[i + 5] == '#'))
+			if (!(list->grid[i - 1] == '#' || list->grid[i + 1] == '#' ||
+			list->grid[i - 5] == '#' || list->grid[i + 5] == '#'))
 				return (0);
 			if (flag == 0)
 			{
@@ -115,10 +149,10 @@ int		validate_piece(fillit *list)
 	return (1);
 }
 
-void	change_chars(fillit *list)
+void			change_chars(t_fillit *list)
 {
-	fillit *head;
-	int i;
+	t_fillit	*head;
+	int			i;
 
 	head = list;
 	while (list)
@@ -133,7 +167,7 @@ void	change_chars(fillit *list)
 		i = 0;
 		while (*list->grid)
 		{
-			if (!(ft_strncmp(list->grid, "....\n", 4)))	
+			if (!(ft_strncmp(list->grid, "....\n", 4)))
 				list->grid += 5;
 			else
 			{
@@ -149,11 +183,11 @@ void	change_chars(fillit *list)
 	list = head;
 }
 
-void	fill_chars(fillit *list)
+void			fill_chars(t_fillit *list)
 {
-	int i;
-	fillit *head;
-	char c;
+	int			i;
+	t_fillit	*head;
+	char		c;
 
 	head = list;
 	c = 'A';
@@ -172,33 +206,32 @@ void	fill_chars(fillit *list)
 	list = head;
 }
 
-char	**remove_dots(char **tet, int height, int width)
+char			**remove_dots(char **tet, int high, int width)
 {
-	int i;
-	int j;
-	int k;
-	char **tmp;
+	int		i;
+	int		j;
+	int		k;
+	char	**tmp;
 
-	i = 0;
-	tmp = (char **)ft_memalloc(sizeof(char*) * height + 1);
+	i = -1;
+	tmp = (char **)ft_memalloc(sizeof(char*) * high + 1);
 	k = 0;
 	j = 0;
-	while (i < height)
-	{
+	while (++i < high)
 		tmp[i] = (char *)ft_memalloc(sizeof(char) * width + 1);
-		i++;
-	}
 	i = 0;
 	while (tet[i][j])
 	{
-		if (tet[i][j] == '.' && tet[i + (2 <= height ? 1 : 0)][j] == '.' && tet[i + (3 <= height ? 2 : 0)][j] == '.' && tet[i + (4 <= height ? 3 : 0)][j] == '.')
+		if (tet[i][j] == '.'
+			&& tet[i + (2 <= high ? 1 : 0)][j] == '.' && tet[i + (3 <=
+			high ? 2 : 0)][j] == '.' && tet[i + (4 <= high ? 3 : 0)][j] == '.')
 			j++;
 		else
 		{
 			tmp[i][k] = tet[i][j];
-			tmp[i + (2 <= height ? 1 : 0)][k] = tet[i + (2 <= height ? 1 : 0)][j];
-			tmp[i + (3 <= height ? 2 : 0)][k] = tet[i + (3 <= height ? 2 : 0)][j];
-			tmp[i + (4 <= height ? 3 : 0)][k] = tet[i + (4 <= height ? 3 : 0)][j];
+			tmp[i + (2 <= high ? 1 : 0)][k] = tet[i + (2 <= high ? 1 : 0)][j];
+			tmp[i + (3 <= high ? 2 : 0)][k] = tet[i + (3 <= high ? 2 : 0)][j];
+			tmp[i + (4 <= high ? 3 : 0)][k] = tet[i + (4 <= high ? 3 : 0)][j];
 			k++;
 			j++;
 		}
@@ -206,25 +239,14 @@ char	**remove_dots(char **tet, int height, int width)
 	return (tmp);
 }
 
-void	write_grid(fillit *list, mapl *maps)
+void			write_grid(t_mapl *maps)
 {
 	int i;
 
-	i = 0;
-	/*while (list->tet[i])
-	{
-		printf("%s\n", list->tet[i]);
-		i++;
-	}*/
-	//printf("\nHeight [%d]\n", list->height);
-	//printf("Width [%d]\n\n", list->width);
 	i = 0;
 	while (maps->map[i])
 	{
 		ft_putendl(maps->map[i]);
 		i++;
 	}
-	ft_putchar('\n');
-	printf("\ni [%d]\n", maps->pos_i);
-	printf("j [%d]\n\n", maps->pos_j);
 }

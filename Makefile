@@ -1,6 +1,7 @@
 NAME = fillit
 FILES = init_grid.c\
 		read_grid.c\
+		solver.c\
 		main.c
 
 OBJ			= $(patsubst %.c, %.o, $(FILES))
@@ -12,6 +13,7 @@ all: $(NAME)
 .PHONY: clean fclean re
 
 $(NAME): $(OBJ)
+	gcc -o $(NAME) $(OBJ) ./libft/libft.a
 
 %.o: %.c $(HEADER)
 	gcc -I . $(FLAGS) $< -c -o $@
@@ -23,3 +25,4 @@ fclean:clean
 	rm -f $(NAME)
 
 re: fclean all
+

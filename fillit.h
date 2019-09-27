@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:50 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/26 20:43:04 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:27:09 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,40 @@
 # define FILLIT_H
 # include "./libft/libft.h"
 
-typedef struct		g_list
+typedef struct		s_lists
 {
 	char			*grid;
 	char			**tet;
 	int				height;
 	int				width;
 	char			c;
-	struct	g_list	*next;
-	struct	g_list	*prev;
-}					fillit;
+	struct s_lists	*next;
+	struct s_lists	*prev;
+}					t_fillit;
 
-typedef struct		map_l
+typedef struct		s_mapl
 {
 	char			**map;
 	int				map_size;
 	int				pos_i;
 	int				pos_j;
-	struct	map_l	*next;
-	struct	map_l	*prev;
-}					mapl;
+	struct s_mapl	*next;
+	struct s_mapl	*prev;
+}					t_mapl;
 
-int					validate_piece(fillit *list);
-int 				validate(char *str, fillit *list);
-void				write_grid(fillit *list, mapl *maps);
-fillit				*read_grid(int fd);
-fillit				*init_grid(void);
-void				change_chars(fillit *list);
-void				fill_chars(fillit *list);
-char				**remove_dots(char **tet, int height, int width);
+int					validate_piece(t_fillit *list);
+int					validate(char *str, t_fillit *list);
+void				write_grid(t_mapl *maps);
+t_fillit			*read_grid(int fd);
+t_fillit			*init_grid(void);
+void				change_chars(t_fillit *list);
+void				fill_chars(t_fillit *list);
+char				**remove_dots(char **tet, int high, int width);
 char				**create_map(int map_size);
-int					starting_size(fillit *list);
-mapl				*solver(fillit *list, mapl *map, fillit *list_head, mapl *maps_head);
+int					starting_size(t_fillit *list);
+t_mapl				*solver(t_fillit *list,
+		t_mapl *map, t_fillit *list_head, t_mapl *maps_head);
 int					valid_tet(char **map, char c);
-int					try_tet(fillit *list, mapl *maps, int i, int j);
+int					try_tet(t_fillit *list, t_mapl *maps, int i, int j);
 
 #endif

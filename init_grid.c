@@ -12,13 +12,11 @@
 
 #include "fillit.h"
 
-fillit *init_grid(void)
+t_fillit		*init_grid(void)
 {
-	fillit *ret;
-	int i;
+	t_fillit	*ret;
 
-	i = 0;
-	ret = malloc(sizeof(fillit));
+	ret = malloc(sizeof(t_fillit));
 	ret->grid = (char *)ft_memalloc(sizeof(char *) * 21);
 	ret->next = NULL;
 	ret->prev = NULL;

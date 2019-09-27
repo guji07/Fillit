@@ -6,41 +6,40 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 22:46:40 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/26 21:04:50 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:29:56 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
+
 #include "fillit.h"
 
-mapl 	*increase(mapl *maps)
+t_mapl		*increase(t_mapl *maps)
 {
-	int size;
-	mapl *head;
-	mapl *sled;
-	int i;
-	
+	int		size;
+	t_mapl	*head;
+	t_mapl	*sled;
+	int		i;
+
 	head = maps;
 	size = maps->map_size + 1;
 	while (maps)
 	{
-		i = 0;
+		i = -1;
 		sled = maps->next;
-		while (maps->map[i])
-		{
+		while (maps->map[++i])
 			ft_strdel(&maps->map[i]);
-			i++;
-		}
 		maps = sled;
 	}
-	maps = malloc(sizeof(mapl));
+	maps = malloc(sizeof(t_mapl));
 	maps = head;
 	maps->prev = NULL;
 	maps->map = create_map(size);
 	maps->map_size = size;
+	maps->pos_i = 0;
+	maps->pos_j = 0;
 	return (maps);
 }
 
-int		try_tet(fillit *list, mapl *maps, int i, int j)
+int			try_tet(t_fillit *list, t_mapl *maps, int i, int j)
 {
 	int n;
 	int m;
@@ -53,8 +52,9 @@ int		try_tet(fillit *list, mapl *maps, int i, int j)
 		m = 0;
 		while (m < list->width)
 		{
-			if (m + j >= maps->map_size || (list->tet[n][m] != '.' && maps->map[n + i][m + j] != '.'))
-				return(0);
+			if (m + j >= maps->map_size || (list->tet[n][m]
+			!= '.' && maps->map[n + i][m + j] != '.'))
+				return (0);
 			m++;
 		}
 		n++;
@@ -71,7 +71,7 @@ int		try_tet(fillit *list, mapl *maps, int i, int j)
 		}
 		n++;
 	}
-	maps->next = malloc(sizeof(mapl));
+	maps->next = malloc(sizeof(t_mapl));
 	maps->next->map = maps->map;
 	maps->next->prev = maps;
 	maps->next->map_size = maps->map_size;
@@ -80,27 +80,27 @@ int		try_tet(fillit *list, mapl *maps, int i, int j)
 	return (1);
 }
 
-char	**create_map(int map_size)
+char		**create_map(int map_size)
 {
-	int i;
-	char **map;
+	int		i;
+	char	**map;
 
 	i = 0;
 	map = (char**)ft_memalloc(sizeof(char *) * map_size + 1);
 	while (i < map_size)
 	{
 		map[i] = (char*)ft_memalloc(sizeof(char) * map_size + 1);
-		memset(map[i], '.', map_size);
+		ft_memset(map[i], '.', map_size);
 		i++;
 	}
 	return (map);
 }
 
-int		starting_size(fillit *list)
+int			starting_size(t_fillit *list)
 {
-	int	counter;
-	fillit *head;
-	
+	int			counter;
+	t_fillit	*head;
+
 	head = list;
 	counter = 0;
 	while (list)
@@ -112,13 +112,13 @@ int		starting_size(fillit *list)
 	return (counter);
 }
 
-mapl	*solver(fillit *list, mapl *map, fillit *list_head, mapl *maps_head)
+t_mapl		*solver(t_fillit *list, t_mapl *map,
+		t_fillit *list_head, t_mapl *maps_head)
 {
 	int		i;
 	int		j;
-	int 	x;
+	int		x;
 
-	write_grid(list, map);
 	if (list)
 	{
 		i = map->pos_i;
@@ -131,9 +131,8 @@ mapl	*solver(fillit *list, mapl *map, fillit *list_head, mapl *maps_head)
 				{
 					map->pos_i = i;
 					map->pos_j = j;
-					printf("\ni = [%i]", i + 1);
-					printf("\nj = [%i]\n", j + 1);
-					return (solver(list->next, map->next, list_head, maps_head));
+					return (solver(list->next,
+							map->next, list_head, maps_head));
 				}
 				j++;
 			}
@@ -154,7 +153,7 @@ mapl	*solver(fillit *list, mapl *map, fillit *list_head, mapl *maps_head)
 		{
 			map = increase(maps_head);
 			return (solver(list_head, map, list_head, maps_head));
-		}	
+		}
 	}
 	return (map);
 }
