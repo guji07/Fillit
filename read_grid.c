@@ -26,11 +26,7 @@ t_fillit		*read_grid(int fd)
 	while (get_next_line(fd, &line) > 0)
 	{
 		while (*line)
-		{
-			list->grid[i] = *line;
-			line++;
-			i++;
-		}
+			list->grid[i++] = *line++;
 		if (i != 20)
 			list->grid[i++] = '\n';
 		else
@@ -43,8 +39,7 @@ t_fillit		*read_grid(int fd)
 		}
 	}
 	CHECKRETURN(!(validate(list->grid, list)), NULL);
-	change_chars(head);
-	return (head);
+	return (change_chars(head) + head);
 }
 
 int				count_ne(char *str)
@@ -53,10 +48,10 @@ int				count_ne(char *str)
 	int count;
 	int fill;
 
-	i = 0;
+	i = -1;
 	fill = 0;
 	count = 0;
-	while (str[i])
+	while (str[++i])
 	{
 		if (str[i] == '#')
 		{
@@ -70,10 +65,8 @@ int				count_ne(char *str)
 			if (str[i + 5] == '#')
 				count++;
 		}
-		i++;
-		if (fill == 4)
-			if (count < 6)
-				return (0);
+		if (fill == 4 && count < 6)
+			return (0);
 	}
 	return (1);
 }
@@ -87,11 +80,11 @@ int				validate(char *str, t_fillit *list)
 	int col;
 
 	col = 0;
-	symb = 0;
+	symb = -1;
 	dot = 0;
 	fill = 0;
 	row = 0;
-	while (str[symb])
+	while (str[++symb])
 	{
 		if (str[symb] != '\n')
 			row++;
@@ -106,7 +99,6 @@ int				validate(char *str, t_fillit *list)
 			dot++;
 		else if (str[symb] == '#')
 			fill++;
-		symb++;
 	}
 	if (col != 4 || dot + fill != symb - 4 || dot != 12 ||
 	fill != 4 || !validate_piece(list) || !(count_ne(str)))
@@ -149,41 +141,36 @@ int				validate_piece(t_fillit *list)
 	return (1);
 }
 
-void			change_chars(t_fillit *list)
+int				change_chars(t_fillit *list)
 {
 	t_fillit	*head;
 	int			i;
+	char		*tmp;
 
 	head = list;
 	while (list)
 	{
-		i = 0;
+		i = -1;
 		list->tet = (char**)ft_memalloc(sizeof(char*) * list->height + 1);
-		while (i < list->height)
-		{
+		tmp = list->grid;
+		while (++i < list->height)
 			list->tet[i] = (char*)ft_memalloc(sizeof(char) * 5);
-			i++;
-		}
-		i = 0;
+		i = -1;
 		while (*list->grid)
 		{
-			if (!(ft_strncmp(list->grid, "....\n", 4)))
-				list->grid += 5;
-			else
-			{
-				ft_strncpy(list->tet[i], list->grid, 4);
-				list->grid += 5;
-				i++;
-			}
+			if ((ft_strncmp(list->grid, "....\n", 4)))
+				ft_strncpy(list->tet[++i], list->grid, 4);
+			list->grid += 5;
 		}
 		list->tet = remove_dots(list->tet, list->height, list->width);
+		list->grid = tmp;
 		list = list->next;
 	}
-	fill_chars(head);
-	list = head;
+	list = fill_chars(head) + head;
+	return (0);
 }
 
-void			fill_chars(t_fillit *list)
+int				fill_chars(t_fillit *list)
 {
 	int			i;
 	t_fillit	*head;
@@ -204,6 +191,7 @@ void			fill_chars(t_fillit *list)
 		list = list->next;
 	}
 	list = head;
+	return (0);
 }
 
 char			**remove_dots(char **tet, int high, int width)

@@ -37,6 +37,8 @@ int		main(int ac, char **av)
 	maps->map = create_map(maps->map_size);
 	maps = solver(list, maps, list, maps);
 	write_grid(maps);
+	free_map(maps);
+	free_tet(list);
 	close(fd);
 	return (0);
 }

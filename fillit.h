@@ -40,8 +40,8 @@ int					validate(char *str, t_fillit *list);
 void				write_grid(t_mapl *maps);
 t_fillit			*read_grid(int fd);
 t_fillit			*init_grid(void);
-void				change_chars(t_fillit *list);
-void				fill_chars(t_fillit *list);
+int					change_chars(t_fillit *list);
+int					fill_chars(t_fillit *list);
 char				**remove_dots(char **tet, int high, int width);
 char				**create_map(int map_size);
 int					starting_size(t_fillit *list);
@@ -49,5 +49,7 @@ t_mapl				*solver(t_fillit *list,
 		t_mapl *map, t_fillit *list_head, t_mapl *maps_head);
 int					valid_tet(char **map, char c);
 int					try_tet(t_fillit *list, t_mapl *maps, int i, int j);
+void				free_tet(t_fillit *list);
+void				free_map(t_mapl *maps);
 
 #endif

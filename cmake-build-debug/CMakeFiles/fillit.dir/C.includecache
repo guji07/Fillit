@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/tgarkbit/Desktop/fillit/./libft/libft.h
+unistd.h
+-
+stdlib.h
+-
+string.h
+-
+fcntl.h
+-
+
+/Users/tgarkbit/Desktop/fillit/fillit.h
+./libft/libft.h
+/Users/tgarkbit/Desktop/fillit/./libft/libft.h
+
+/Users/tgarkbit/Desktop/fillit/ft_free.c
+fillit.h
+/Users/tgarkbit/Desktop/fillit/fillit.h
+

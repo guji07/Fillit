@@ -2,7 +2,8 @@ NAME = fillit
 FILES = init_grid.c\
 		read_grid.c\
 		solver.c\
-		main.c
+		main.c\
+		ft_free.c
 
 OBJ			= $(patsubst %.c, %.o, $(FILES))
 FLAGS		=  -Wall -Werror -Wextra
