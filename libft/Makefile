@@ -67,7 +67,8 @@ FILES = ft_atoi.c\
 		get_next_line.c\
 		ft_strchrn.c\
 		ft_strset.c\
-		ft_sqrt.c
+		ft_sqrt.c\
+		ft_lstfreeone.c
 
 OBJ			= $(patsubst %.c, %.o, $(FILES))
 FLAGS		=  -Wall -Werror -Wextra

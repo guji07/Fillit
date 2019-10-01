@@ -3,7 +3,7 @@ FILES = init_grid.c\
 		read_grid.c\
 		solver.c\
 		main.c\
-		ft_free.c
+		freall.c
 
 OBJ			= $(patsubst %.c, %.o, $(FILES))
 FLAGS		=  -Wall -Werror -Wextra

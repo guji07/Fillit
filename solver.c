@@ -6,32 +6,38 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 22:46:40 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/27 18:29:56 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/01 16:04:34 by tgarkbit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-t_mapl		*increase(t_mapl *maps)
+t_mapl 	*increase(t_mapl *maps)
 {
-	int		size;
-	t_mapl	*head;
-	t_mapl	*sled;
-	int		i;
-
+	int size;
+	t_mapl *head;
+	t_mapl *sled;
+	int i;
+	
 	head = maps;
 	size = maps->map_size + 1;
 	while (maps)
 	{
 		i = -1;
 		sled = maps->next;
-		while (maps->map[++i])
-			ft_strdel(&maps->map[i]);
+		if (maps->map)
+		{
+			while (++i < maps->map_size)
+				ft_strdel(&maps->map[i]);
+			free(maps->map);
+		}
+		free(maps);
 		maps = sled;
 	}
 	maps = malloc(sizeof(t_mapl));
 	maps = head;
 	maps->prev = NULL;
+	maps->next = NULL;
 	maps->map = create_map(size);
 	maps->map_size = size;
 	maps->pos_i = 0;
@@ -39,7 +45,7 @@ t_mapl		*increase(t_mapl *maps)
 	return (maps);
 }
 
-int			try_tet(t_fillit *list, t_mapl *maps, int i, int j)
+int		try_tet(t_fillit *list, t_mapl *maps, int i, int j)
 {
 	int n;
 	int m;
@@ -49,22 +55,30 @@ int			try_tet(t_fillit *list, t_mapl *maps, int i, int j)
 	{
 		if (n + i >= maps->map_size)
 			return (0);
-		m = -1;
-		while (++m < list->width)
-			if (m + j >= maps->map_size || (list->tet[n][m]
-			!= '.' && maps->map[n + i][m + j] != '.'))
-				return (0);
+		m = 0;
+		while (m < list->width)
+		{
+			if (m + j >= maps->map_size || (list->tet[n][m] != '.' && maps->map[n + i][m + j] != '.'))
+				return(0);
+			m++;
+		}
 		n++;
 	}
-	n = -1;
-	while (++n < list->height)
+	n = 0;
+	while (n < list->height)
 	{
-		m = -1;
-		while (++m < list->width)
+		m = 0;
+		while (m < list->width)
+		{
 			if ((list->tet[n][m] != '.' && maps->map[n + i][m + j] == '.'))
 				maps->map[n + i][m + j] = list->tet[n][m];
+			m++;
+		}
+		n++;
 	}
-	maps->next = malloc(sizeof(t_mapl));
+	if (!(maps->next = malloc(sizeof(t_mapl))))
+		return (0);
+	maps->next->next = NULL;
 	maps->next->map = maps->map;
 	maps->next->prev = maps;
 	maps->next->map_size = maps->map_size;
@@ -73,13 +87,14 @@ int			try_tet(t_fillit *list, t_mapl *maps, int i, int j)
 	return (1);
 }
 
-char		**create_map(int map_size)
+char	**create_map(int map_size)
 {
-	int		i;
-	char	**map;
+	int i;
+	char **map;
+
 
 	i = 0;
-	map = (char**)ft_memalloc(sizeof(char *) * map_size + 1);
+	map = (char**)malloc(sizeof(char *) * map_size);
 	while (i < map_size)
 	{
 		map[i] = (char*)ft_memalloc(sizeof(char) * map_size + 1);
@@ -89,11 +104,11 @@ char		**create_map(int map_size)
 	return (map);
 }
 
-int			starting_size(t_fillit *list)
+int		starting_size(t_fillit *list)
 {
-	int			counter;
-	t_fillit	*head;
-
+	int	counter;
+	t_fillit *head;
+	
 	head = list;
 	counter = 0;
 	while (list)
@@ -105,17 +120,14 @@ int			starting_size(t_fillit *list)
 	return (counter);
 }
 
-t_mapl		*solver(t_fillit *list, t_mapl *map,
-		t_fillit *list_head, t_mapl *maps_head)
+int			solver(t_fillit *list, t_mapl *map)
 {
-	int		i;
-	int		j;
-	int		x;
+	int 	i;
+	int 	j;
 
 	if (list)
 	{
-		i = map->pos_i;
-		while (i < map->map_size)
+		for (i = map->pos_i; i < map->map_size; i++)
 		{
 			j = (i <= map->pos_i ? (map->pos_j) : 0);
 			while (j < map->map_size)
@@ -124,26 +136,25 @@ t_mapl		*solver(t_fillit *list, t_mapl *map,
 				{
 					map->pos_i = i;
 					map->pos_j = j;
-					return (solver(list->next,
-							map->next, list_head, maps_head));
+					return (solver(list->next, map->next));
 				}
 				j++;
 			}
-			i++;
 		}
-		if (map->prev)
+		map = map->prev;
+		if (list->prev)
 		{
-			x = -1;
-			while (map->prev->map[++x])
-				ft_strset(map->prev->map[x], list->prev->c, '.');
-			map->prev->pos_j++;
-			return (solver(list->prev, map->prev, list_head, maps_head));
+			for (i = 0; i < (map->map_size); ++i)
+			{
+				ft_strset(map->map[i], list->prev->c, '.');}
+			list = list->prev;
+			free(map->next);
+			map->next = NULL;
+			map->pos_j++;
+			return (solver(list, map));
 		}
 		else
-		{
-			map = increase(maps_head);
-			return (solver(list_head, map, list_head, maps_head));
-		}
+			return (0);
 	}
-	return (map);
+	return (1);
 }

@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_grid.c                                        :+:      :+:    :+:   */
+/*   ft_lstfreeone.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/21 18:34:58 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 16:58:00 by cauranus         ###   ########.fr       */
+/*   Created: 2019/09/29 01:42:19 by cauranus          #+#    #+#             */
+/*   Updated: 2019/09/29 17:44:32 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
 
-t_fillit *init_grid(void)
+void	ft_lstfreeone(t_list *lst)
 {
-	t_fillit *ret;
-
-	ret = malloc(sizeof(t_fillit));
-	ret->grid = (char *)ft_memalloc(sizeof(char *) * 21);
-	ret->next = NULL;
-	ret->prev = NULL;
-	if (!ret)
-		return (NULL);
-	return (ret);
+	ft_memdel(&lst->content);
+	lst->content = ft_strdup(lst->next->content);
+	lst->content_size = lst->next->content_size;
+	ft_memdel(&lst->next->content);
+	lst->next->next = lst->next;
+	free(lst);
 }
