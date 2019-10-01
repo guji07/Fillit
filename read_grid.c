@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 16:56:57 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/01 17:33:23 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,27 +255,16 @@ char	**remove_dots(char **tet, int height, int width)
 	return (tmp);
 }
 
-void	write_grid(t_mapl *maps, t_fillit *list)
+void	write_grid(char **maps, t_fillit *list)
 {
 	int i;
 
 	i = 0;
-	while (i < maps->map_size)
+	while (i < list->map_size)
 	{
-		ft_putendl(maps->map[i]);
+		ft_putendl(maps[i]);
 		i++;
 	}
-	free_map_back(maps);
+	free_map(maps, list->map_size);
 	free_tet_back(list);
-}
-
-void	write_test(t_mapl *maps, t_fillit *list)
-{
-	int i = -1;
-	static int j = 0;
-
-	j++;
-	while (++i < maps->map_size)
-		ft_putendl(maps->map[i]);
-	printf("\n%i\n", j);
 }

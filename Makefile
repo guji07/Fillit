@@ -6,7 +6,7 @@ FILES = init_grid.c\
 		freall.c
 
 OBJ			= $(patsubst %.c, %.o, $(FILES))
-FLAGS		=  -Wall -Werror -Wextra
+FLAGS		=  -Wall -Werror -Wextra -ggdb3
 HEADER		= libft.h
 
 all: $(NAME)

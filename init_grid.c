@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-t_fillit *init_grid(void)
+t_fillit	*init_grid(void)
 {
 	t_fillit *ret;
 

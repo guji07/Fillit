@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:35 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 17:38:09 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/01 18:42:10 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		main(int ac, char **av)
 {
 	int		fd;
-	t_mapl	*maps;
+	char	**map;
 	t_fillit	*list;
 
 	if (ac != 2)
@@ -30,18 +30,16 @@ int		main(int ac, char **av)
 		write(1, "error\n", 6);
 		return (0);
 	}
-	maps = malloc(sizeof(t_mapl));
-	maps->map_size = ft_sqrt(starting_size(list) * 4);
-	maps->prev = NULL;
-	maps->next = NULL;
-	maps->pos_i = 0;
-	maps->pos_j = 0;
-	maps->map = create_map(maps->map_size);
-	while (solver(list, maps) == 0)
+	list->map_size = ft_sqrt(starting_size(list) * 4);
+	list->pos_i = 0;
+	list->pos_j = 0;
+	map = create_map(list->map_size);
+	while (solver(list, map) == 0)
 	{
-		maps = increase(maps);
+		free_map(map, list->map_size);
+		map = increase(map, list);
 	}
-	write_grid(maps, list);
+	write_grid(map, list);
 	close(fd);
 	return (0);
 }
