@@ -84,6 +84,7 @@ int		solver(t_fillit *list, char **map)
 	int	i;
 	int	j;
 	int	x;
+
 	test_write(map, list);/*test*/
 	CHECKRETURN((!list), 1);
 	i = -1;
@@ -93,6 +94,7 @@ int		solver(t_fillit *list, char **map)
 		while (++j <= list->map_size - list->width)
 		{
 			if (try_tet(list, map, i, j))
+			{
 				if (solver(list->next, map))
 					return (1);
 				else
@@ -101,6 +103,7 @@ int		solver(t_fillit *list, char **map)
 					while (++x < list->map_size)
 						ft_strset(map[x], list->c, '.');
 				}
+			}
 		}
 	}
 	return (0);

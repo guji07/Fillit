@@ -63,7 +63,7 @@ int			ft_iamsmart(int *i)
 	return ((*i = -1) + 1);
 }
 
-void		change_chars(t_fillit *list)
+int			change_chars(t_fillit *list)
 {
 	t_fillit	*head;
 	int			i;
@@ -89,5 +89,5 @@ void		change_chars(t_fillit *list)
 		list->tet = temp;
 		list = list->next;
 	}
-	fill_chars(head);
+	return (fill_chars(head));
 }

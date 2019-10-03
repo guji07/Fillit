@@ -13,6 +13,16 @@
 #include <stdio.h>
 #include "fillit.h"
 
+int		ft_strfdel(char **as)
+{
+	if (as != NULL)
+	{
+		free(*as);
+		*as = NULL;
+	}
+	return (0);
+}
+
 t_fillit	*read_grid(int fd)
 {
 	t_fillit	*list;
@@ -24,9 +34,8 @@ t_fillit	*read_grid(int fd)
 	i = 0;
 	list = init_grid();
 	head = list;
-	while (get_next_line(fd, &line) > 0)
+	while (get_next_line(fd, &line) > 0 && (tmp = line))
 	{
-		tmp = line;
 		while (*line)
 			LG[i++] = *(line++);
 		if (i < 20)
@@ -34,21 +43,16 @@ t_fillit	*read_grid(int fd)
 		else
 		{
 			if (!(validate(LG, list)))
-			{
-				ft_strdel(&tmp);
-				return (free_error(head));
-			}
+				return (free_error(ft_strfdel(&tmp) + head));
 			list->next = init_grid();
 			list = list->next;
 			i = 0;
 		}
 		ft_strdel(&tmp);
 	}
-	ft_strdel(&tmp);
-	if (!(validate(LG, list)))
+	if (!(validate(LG, ft_strfdel(&tmp) + list)))
 		return (free_error(head));
-	change_chars(head);
-	return (head);
+	return (head + change_chars(head));
 }
 
 int			count_ne(char *str)
@@ -138,7 +142,7 @@ int			validate_piece(t_fillit *list)
 	return (1);
 }
 
-void		fill_chars(t_fillit *list)
+int			fill_chars(t_fillit *list)
 {
 	int			i;
 	t_fillit	*head;
@@ -159,4 +163,5 @@ void		fill_chars(t_fillit *list)
 		list = list->next;
 	}
 	list = head;
+	return (0);
 }
