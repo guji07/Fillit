@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
+#include <string.h>
+#include <stdio.h>
 
 void		write_grid(char **maps, t_fillit *list)
 {
@@ -26,6 +28,23 @@ void		write_grid(char **maps, t_fillit *list)
 	free_tet_next(list);
 }
 
+void		test_write(char **maps, t_fillit *list)
+{
+	static int j = 0;
+
+	if ((j++ %1000000) == 0)
+	{
+		for (int i = 0; i < list->map_size; i++)
+		{
+			write(1, "\n", 1);
+			write(1, maps[i], list->map_size);
+			write(1, "\n", 1);
+		}
+		write(1, "\n", 1);
+		ft_putnbr(j);
+	}
+}
+
 int			ft_validn(char *sss)
 {
 	int		i;
@@ -33,8 +52,8 @@ int			ft_validn(char *sss)
 	int		fd;
 
 	fd = open(sss, O_RDONLY);
-	i = read(fd, str, 547);
-	if (!((i + 1) % 21))
+	i = read(fd, str, 548);
+	if (!((i + 2) % 21))/* if (!((i + 2) % 21)) for windows for whatever reasons*/
 	{
 		close(fd);
 		write(2, "error\n", 6);

@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static void	itoa(char *str, long long nb, size_t i)
+static void	itow(char *str, long long nb, size_t i)
 {
 	if (nb < 0)
 	{
@@ -50,6 +50,6 @@ char		*ft_itoa(int n)
 		str[0] = '0';
 		return (str);
 	}
-	itoa(str, nb, i);
+	itow(str, nb, i);
 	return (str);
 }

@@ -51,11 +51,11 @@ char		**remove_dots(char **tet, int h, int width)
 	return (tm);
 }
 
-void		ft_iamgenius(int *i, char **tm, char **eljay)
+void		ft_iamgenius(int *i, char **tm, char **ya_eblan)
 {
 	*i = 0;
-	*tm = *eljay;
-	*eljay = *eljay - 5;
+	*tm = *ya_eblan;
+	*ya_eblan = *ya_eblan - 5;
 }
 
 int			ft_iamsmart(int *i)

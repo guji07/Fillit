@@ -18,24 +18,17 @@ t_fillit	*read_grid(int fd)
 	t_fillit	*list;
 	char		*line;
 	int			i;
-	int			count;
 	t_fillit	*head;
 	char		*tmp;
 
 	i = 0;
-	count = 0;
 	list = init_grid();
 	head = list;
 	while (get_next_line(fd, &line) > 0)
 	{
 		tmp = line;
 		while (*line)
-		{
-			LG[i] = *line;
-			line++;
-			i++;
-		}
-		count++;
+			LG[i++] = *(line++);
 		if (i < 20)
 			LG[i++] = '\n';
 		else

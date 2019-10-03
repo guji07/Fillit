@@ -84,7 +84,7 @@ int		solver(t_fillit *list, char **map)
 	int	i;
 	int	j;
 	int	x;
-
+	test_write(map, list);/*test*/
 	CHECKRETURN((!list), 1);
 	i = -1;
 	while (++i <= list->map_size - list->height)

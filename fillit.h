@@ -34,7 +34,7 @@ typedef struct		s_val
 	int				fill;
 	int				col;
 }					t_val;
-
+void				test_write(char **maps, t_fillit *list);
 int					validate_piece(t_fillit *list);
 int					validate(char *str, t_fillit *list);
 void				write_grid(char **maps, t_fillit *list);
