@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "fillit.h"
 
 t_fillit	*read_grid(int fd)
@@ -42,7 +43,7 @@ t_fillit	*read_grid(int fd)
 			if (!(validate(LG, list)))
 			{
 				ft_strdel(&tmp);
-				return(free_error(head));
+				return (free_error(head));
 			}
 			list->next = init_grid();
 			list = list->next;
@@ -52,7 +53,7 @@ t_fillit	*read_grid(int fd)
 	}
 	ft_strdel(&tmp);
 	if (!(validate(LG, list)))
-		return(free_error(head));
+		return (free_error(head));
 	change_chars(head);
 	return (head);
 }
