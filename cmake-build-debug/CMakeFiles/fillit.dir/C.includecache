@@ -20,27 +20,7 @@ fcntl.h
 ./libft/libft.h
 /Users/tgarkbit/Desktop/fillit/./libft/libft.h
 
-/Users/tgarkbit/Desktop/fillit/freall.c
-fillit.h
-/Users/tgarkbit/Desktop/fillit/fillit.h
-
 /Users/tgarkbit/Desktop/fillit/init_grid.c
 fillit.h
 /Users/tgarkbit/Desktop/fillit/fillit.h
-
-/Users/tgarkbit/Desktop/fillit/main.c
-fillit.h
-/Users/tgarkbit/Desktop/fillit/fillit.h
-
-/Users/tgarkbit/Desktop/fillit/read_grid.c
-fillit.h
-/Users/tgarkbit/Desktop/fillit/fillit.h
-stdio.h
--
-
-/Users/tgarkbit/Desktop/fillit/solver.c
-fillit.h
-/Users/tgarkbit/Desktop/fillit/fillit.h
-stdio.h
--
 
