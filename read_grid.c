@@ -6,22 +6,11 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/10/03 16:17:52 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/04 17:36:02 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "fillit.h"
-
-int		ft_strfdel(char **as)
-{
-	if (as != NULL)
-	{
-		free(*as);
-		*as = NULL;
-	}
-	return (0);
-}
 
 t_fillit	*read_grid(int fd)
 {
@@ -38,19 +27,20 @@ t_fillit	*read_grid(int fd)
 	{
 		while (*line)
 			LG[i++] = *(line++);
+		ft_strdel(&tmp);
 		if (i < 20)
 			LG[i++] = '\n';
 		else
 		{
 			if (!(validate(LG, list)))
-				return (free_error(ft_strfdel(&tmp) + head));
+				return (free_error(head));
 			list->next = init_grid();
 			list = list->next;
 			i = 0;
 		}
-		ft_strdel(&tmp);
+
 	}
-	if (!(validate(LG, ft_strfdel(&tmp) + list)))
+	if (!(validate(LG, list)))
 		return (free_error(head));
 	return (head + change_chars(head));
 }

@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 18:34:58 by cauranus          #+#    #+#             */
-/*   Updated: 2019/10/02 21:21:10 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/04 17:35:38 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_fillit	*init_grid(void)
 	t_fillit *ret;
 
 	ret = malloc(sizeof(t_fillit));
-	ret->grid = (char *)ft_memalloc(sizeof(char *) * 21);
+	ret->grid = (char *)ft_memalloc(sizeof(char) * 21);
 	ret->next = NULL;
 	return (ret);
 }
@@ -51,11 +51,11 @@ char		**remove_dots(char **tet, int h, int width)
 	return (tm);
 }
 
-void		ft_iamgenius(int *i, char **tm, char **ya_eblan)
+void		ft_iamgenius(int *i, char **tm, char **vova)
 {
 	*i = 0;
-	*tm = *ya_eblan;
-	*ya_eblan = *ya_eblan - 5;
+	*tm = *vova;
+	*vova = *vova - 5;
 }
 
 int			ft_iamsmart(int *i)
@@ -90,4 +90,14 @@ int			change_chars(t_fillit *list)
 		list = list->next;
 	}
 	return (fill_chars(head));
+}
+
+int			ft_strfdel(char **as)
+{
+	if (as != NULL)
+	{
+		free(*as);
+		*as = NULL;
+	}
+	return (0);
 }

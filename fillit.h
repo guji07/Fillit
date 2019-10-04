@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:50 by cauranus          #+#    #+#             */
-/*   Updated: 2019/10/03 16:17:08 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/04 17:35:48 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct		s_val
 	int				fill;
 	int				col;
 }					t_val;
-void				test_write(char **maps, t_fillit *list);
+
 int					validate_piece(t_fillit *list);
 int					validate(char *str, t_fillit *list);
 void				write_grid(char **maps, t_fillit *list);
@@ -54,5 +54,6 @@ void				write_test(char **maps, t_fillit *list);
 void				free_map(char **map, int size);
 char				**increase(char **maps, t_fillit *list);
 void				free_tet_next(t_fillit *start);
+int					ft_strfdel(char **as);
 
 #endif
