@@ -27,20 +27,17 @@ t_fillit	*read_grid(int fd)
 	{
 		while (*line)
 			LG[i++] = *(line++);
-		ft_strdel(&tmp);
-		if (i < 20)
+		if (i < 20 + ft_strfdel(&tmp))
 			LG[i++] = '\n';
 		else
 		{
-			if (!(validate(LG, list)))
-				return (free_error(head));
+			CHECKRETURN(!(validate(LG, list)), free_error(head));
 			list->next = init_grid();
 			list = list->next;
 			i = 0;
 		}
 	}
-	if (!(validate(LG, list)))
-		return (free_error(head));
+	CHECKRETURN(!(validate(LG, list)), free_error(head));
 	return (head + change_chars(head));
 }
 

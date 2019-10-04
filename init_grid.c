@@ -91,13 +91,3 @@ int			change_chars(t_fillit *list)
 	}
 	return (fill_chars(head));
 }
-
-int			ft_strfdel(char **as)
-{
-	if (as != NULL)
-	{
-		free(*as);
-		*as = NULL;
-	}
-	return (0);
-}

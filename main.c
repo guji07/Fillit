@@ -13,6 +13,16 @@
 #include "fillit.h"
 #include <stdio.h>
 
+int			ft_strfdel(char **as)
+{
+	if (as != NULL)
+	{
+		free(*as);
+		*as = NULL;
+	}
+	return (0);
+}
+
 void		write_grid(char **maps, t_fillit *list)
 {
 	int i;
@@ -34,6 +44,12 @@ int			ft_validn(char *sss)
 	int		fd;
 
 	fd = open(sss, O_RDONLY);
+	if (fd < 0)
+	{
+		close(fd);
+		write(1, "error\n", 6);
+		exit(0);
+	}
 	i = read(fd, str, 548);
 	if (!((i + 2) % 21))
 	{
