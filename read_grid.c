@@ -38,7 +38,6 @@ t_fillit	*read_grid(int fd)
 			list = list->next;
 			i = 0;
 		}
-
 	}
 	if (!(validate(LG, list)))
 		return (free_error(head));

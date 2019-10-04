@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:35 by cauranus          #+#    #+#             */
-/*   Updated: 2019/10/04 17:35:04 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/04 20:24:19 by tgarkbit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int			main(int ac, char **av)
 	int			fd;
 	char		**map;
 	t_fillit	*list;
-	char		*tt;
 
 	if (ac != 2)
 	{
@@ -67,7 +66,6 @@ int			main(int ac, char **av)
 	map = create_map(list->map_size);
 	while (!(solver(list, map)))
 		map = increase(map, list);
-
 	write_grid(map, list);
 	close(fd);
 	return (0);

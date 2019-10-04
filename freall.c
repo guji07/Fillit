@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-void	free_tet_next(t_fillit *start)
+void		free_tet_next(t_fillit *start)
 {
 	int			i;
 	t_fillit	*buf;
@@ -46,7 +46,7 @@ void		*free_error(t_fillit *list)
 	return (0);
 }
 
-void	free_map(char **map, int size)
+void		free_map(char **map, int size)
 {
 	int i;
 

@@ -48,7 +48,7 @@ int					starting_size(t_fillit *list);
 int					solver(t_fillit *list, char **map);
 int					valid_tet(char **map, char c);
 int					try_tet(t_fillit *list, char **maps, int i, int j);
-void 				*free_error(t_fillit *list);
+void				*free_error(t_fillit *list);
 void				free_tet_back(t_fillit *list);
 void				write_test(char **maps, t_fillit *list);
 void				free_map(char **map, int size);
