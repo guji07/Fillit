@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgarkbit <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 14:39:55 by tgarkbit          #+#    #+#             */
-/*   Updated: 2019/09/21 14:39:56 by tgarkbit         ###   ########.fr       */
+/*   Updated: 2019/10/07 14:17:08 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 static	int		ft_vl(char *arr)
 {
